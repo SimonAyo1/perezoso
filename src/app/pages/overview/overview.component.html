@@ -1,0 +1,117 @@
+<section class="hero-section">
+  <div class="staking-area">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-7">
+          <div class="card no-hover staking-card single-staking">
+            <h3 class="m-0">Perezoso Raffle Draw</h3>
+            <span class="balance">1,000,000 PRSD Prize</span>
+
+            <div class="tab-content mt-md-3" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="tab-one"
+                role="tabpanel"
+                aria-labelledby="tab-one-tab"
+              >
+                <div class="input-box my-4 d-flex row">
+                  <div class="input-area col-lg-6 col-12 mb-3">
+                    <div class="input-text">
+                      <label>Ticket Price</label>
+                      <input type="text" value="1000 PRZS" disabled />
+                    </div>
+                  </div>
+                  <div class="input-area col-lg-6 col-12 mb-3">
+                    <div class="input-text">
+                      <label>Ticket(s)</label>
+                      <input
+                        type="text"
+                        placeholder="0.00"
+                        (input)="calculateAmountToPay($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="input-area col-lg-6 col-12 mb-3">
+                    <div class="input-text">
+                      <label>Total To Pay</label>
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        [(ngModel)]="amountToPay"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-12">
+                    <button class="btn btn-secondary mt-4 w-100">
+                      Buy Ticket
+                    </button>
+                  </div>
+                </div>
+                <span
+                  >Note: The lottery would be done every day at 9:00 P.M</span
+                >
+                <div class="staking-tab-content mt-4">
+                  <p>Tokenomics</p>
+                  <div class="info-box" style="margin-top: -20px">
+                    <div>
+                      <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between">
+                          <strong>Contract Address:</strong>
+                          <span>0x939...9994</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Token Name:</strong> <span>Perezoso</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Token Symbol:</strong><span>PRZS</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Token Supply:</strong>
+                          <span>200,000 PRZS</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Token Price:</strong
+                          ><span>{{ 20 | currency }}</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Circulation Supply:</strong>
+                          <span>1,000,000,000</span>
+                        </li>
+
+                        <li class="d-flex justify-content-between">
+                          <strong>Market Cap:</strong>
+                          <span>{{ 394949923 | currency }}</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <strong>Liquidity:</strong>
+                          <span> {{ 10000 | currency }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-5">
+          <div class="staking-items mt-4 mt-md-0">
+            <div class="card no-hover staking-card">
+              <h3 class="m-0">0 PRZS</h3>
+              <p>Your Winnings</p>
+            </div>
+            <div class="card no-hover staking-card my-4">
+              <h3 class="m-0">{{ 30300 | currency }}</h3>
+              <p>Total Rewards Distributed</p>
+            </div>
+            <div class="card no-hover staking-card">
+              <h3 class="m-0">{{ 1902 | number }}</h3>
+              <p>Number of Players</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

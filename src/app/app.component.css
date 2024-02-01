@@ -1,0 +1,9 @@
+li {
+  color: white;
+}
+label {
+  color: white !important;
+}
+input::placeholder {
+  color: white !important;
+}

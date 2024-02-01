@@ -1,0 +1,8 @@
+.perelogo {
+    font-size: 25px;
+    color: #fff;
+    font-weight: 600;
+}
+.navbar-fixed-top {
+    backdrop-filter: blur(5px);
+}
