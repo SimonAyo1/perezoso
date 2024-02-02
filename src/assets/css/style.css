@@ -655,11 +655,6 @@ aside {
   clear: both;
 }
 
-
-
-
-
-
 @-webkit-keyframes spinner {
   to {
     -webkit-transform: rotateZ(360deg);
@@ -2532,7 +2527,7 @@ header .navbar-sticky {
 
 .leaderboard-area table {
   font-weight: 500;
-  color: var(--primary-p-color);
+  color: #fff;
   border-spacing: 0;
 }
 
@@ -2542,7 +2537,7 @@ header .navbar-sticky {
   width: 20%;
   padding: 1.2rem;
   margin-bottom: 10px;
-  background-color: var(--card-bg-color);
+  background-color: #206556bd;
 }
 
 @media (max-width: 575px) {
@@ -2950,8 +2945,6 @@ a.page-numbers:hover {
   justify-content: center;
   height: 100%;
   margin: 0 auto;
-  -webkit-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
 }
 
 .social-icons > a {
@@ -2959,25 +2952,15 @@ a.page-numbers:hover {
   width: 45px;
   height: 45px;
   font-size: 22px;
-  background: var(--card-bg-color);
+  background: #815f03;
   color: var(--white-color) !important;
   border-radius: 14px;
   overflow: hidden;
-  -webkit-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
 }
 
-.social-icons > a:hover i:first-child {
-  margin-top: -45px;
-}
-
-/* #endregion Feature */
-/*----------------------------------------------
-9. Footer
-----------------------------------------------*/
-/* #region Footer */
 .footer-area {
   padding: 50px 0;
+  margin-top: -120px !important;
 }
 
 .footer-area .footer-items .navbar-brand {
@@ -2997,11 +2980,6 @@ a.page-numbers:hover {
     display: block;
     margin: 1rem;
   }
-}
-
-.footer-area .footer-items a {
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
 }
 
 .footer-area .footer-items a:not(:hover) {
@@ -3047,7 +3025,7 @@ a.page-numbers:hover {
 }
 
 .modal-content {
-  background-color: var(--primary-bg-color);
+  background-color: #05715af2;
   border: none;
   border-radius: 0;
   overflow-x: hidden;
@@ -3262,7 +3240,7 @@ a.page-numbers:hover {
   body section {
     padding: 90px 0;
   }
-  
+
   /* #endregion Helper Class
 
     /* #region Header */
@@ -3311,7 +3289,6 @@ a.page-numbers:hover {
 }
 
 @media (max-width: 576px) {
- 
   body .avatar-max-lg {
     height: 5rem;
     width: 5rem;
