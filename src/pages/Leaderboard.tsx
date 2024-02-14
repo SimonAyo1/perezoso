@@ -6,13 +6,16 @@ import { CirclesWithBar } from "react-loader-spinner";
 const LeaderboardPage: React.FC = () => {
   const giveawayAddress = "0xe96512431A6765680662A5a7DFFe6d24C0303204";
   const PRIZE = 0.001;
-
+  const [dates, setDates] = useState<string[] | []>([]);
   const [leaderboard, setLeaderBoard] = useState<string[]>([]);
 
   const { isLoading: gettingCount, data: giveawayCount } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
     functionName: "getCurrentGiveawayCount",
+    onSuccess() {
+      getGiveawayDates(Number(giveawayCount));
+    },
   });
 
   const {
@@ -28,6 +31,16 @@ const LeaderboardPage: React.FC = () => {
       setLeaderBoard((prev) => [...prev, currentWinner as string]);
     },
   });
+  const getGiveawayDates = (giveaway_count: number) => {
+    let giveawayDates: string[] = [];
+    let currentDate = new Date();
+    for (let i = 0; i < giveaway_count; i++) {
+      giveawayDates.push(new Date(currentDate).toDateString());
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+
+    setDates(giveawayDates);
+  };
 
   useEffect(() => {
     for (let i = 0; i < Number(giveawayCount); i++) {
@@ -77,12 +90,14 @@ const LeaderboardPage: React.FC = () => {
                       )}
                       {leaderboard[0] !=
                         "0x0000000000000000000000000000000000000000" &&
-                        leaderboard.map((lb, index) => (
-                          <tr>
+                        leaderboard.map((addr, index) => (
+                          <tr key={index}>
                             <td style={{ width: "5%" }}>{index}</td>
-                            <td style={{ width: "45%" }}>{lb}</td>
+                            <td style={{ width: "45%" }}>{addr}</td>
                             <td style={{ width: "25%" }}>{PRIZE} PRZS</td>
-                            <td style={{ width: "25%" }}>14/02/2024</td>
+                            <td style={{ width: "25%" }}>
+                              {dates.reverse()[index]}
+                            </td>
                           </tr>
                         ))}
                     </tbody>
