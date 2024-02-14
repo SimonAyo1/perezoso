@@ -21,7 +21,7 @@ const DashboardPage: React.FC = () => {
     abi: ABI,
     functionName: "getCurrentGiveawayCount",
     onSuccess(data) {
-      refetchPlayerWinning();
+      refetchPlayerWinning()
     },
     watch: true,
   });
