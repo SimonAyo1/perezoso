@@ -1,5 +1,4 @@
 import React, { createContext } from "react";
-import useIP from "./useIPHook";
 
 // Define the type for context value
 export interface LanguageContextType {

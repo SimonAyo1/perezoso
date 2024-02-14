@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LanguageContext, LanguageContextType } from "../core/LanguageProvider";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 
 const Header: React.FC = () => {
   const ctx = useContext<LanguageContextType>(LanguageContext);
