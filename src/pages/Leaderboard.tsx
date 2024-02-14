@@ -6,7 +6,6 @@ import { CirclesWithBar } from "react-loader-spinner";
 const LeaderboardPage: React.FC = () => {
   const giveawayAddress = "0xe96512431A6765680662A5a7DFFe6d24C0303204";
   const PRIZE = 0.001;
-  const currentDate = new Date();
 
   const [leaderboard, setLeaderBoard] = useState<string[]>([]);
 
