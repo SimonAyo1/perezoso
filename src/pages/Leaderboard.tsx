@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {  useContractRead } from "wagmi";
+import { useContractRead } from "wagmi";
 import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const LeaderboardPage: React.FC = () => {
   const giveawayAddress = "0xe96512431A6765680662A5a7DFFe6d24C0303204";
   const PRIZE = 0.001;
-  // const INITIATED_DATE:
+  const currentDate = new Date();
+
   const [leaderboard, setLeaderBoard] = useState<string[]>([]);
 
   const { isLoading: gettingCount, data: giveawayCount } = useContractRead({
@@ -64,7 +65,14 @@ const LeaderboardPage: React.FC = () => {
                       {" "}
                       {leaderboard[0] ==
                         "0x0000000000000000000000000000000000000000" && (
-                        <p style={{ textAlign: "center", fontSize: 20, fontWeight: 500, marginTop: 50 }}>
+                        <p
+                          style={{
+                            textAlign: "center",
+                            fontSize: 20,
+                            fontWeight: 500,
+                            marginTop: 50,
+                          }}
+                        >
                           No Winner History At The Moment
                         </p>
                       )}
@@ -75,11 +83,7 @@ const LeaderboardPage: React.FC = () => {
                             <td style={{ width: "5%" }}>{index}</td>
                             <td style={{ width: "45%" }}>{lb}</td>
                             <td style={{ width: "25%" }}>{PRIZE} PRZS</td>
-                            <td style={{ width: "25%" }}>
-                              {(
-                                new Date().getDate() - Number(giveawayCount)
-                              ).toLocaleString()}
-                            </td>
+                            <td style={{ width: "25%" }}>14/02/2024</td>
                           </tr>
                         ))}
                     </tbody>
