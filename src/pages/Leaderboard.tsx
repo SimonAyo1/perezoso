@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Address, useContractRead } from "wagmi";
+import {  useContractRead } from "wagmi";
 import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 

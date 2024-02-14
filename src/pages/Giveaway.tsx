@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import ABI from "../core/ABI.json";
 import TOKENABI from "../core/TokenABI.json";
 import { toast } from "react-toastify";
 import { CirclesWithBar } from "react-loader-spinner";
-import axios from "axios";
 
 const DashboardPage: React.FC = () => {
   const PRIZE = 0.001;
@@ -20,7 +19,7 @@ const DashboardPage: React.FC = () => {
     address: giveawayAddress,
     abi: ABI,
     functionName: "getCurrentGiveawayCount",
-    onSuccess(data) {
+    onSuccess() {
       refetchPlayerWinning()
     },
     watch: true,
@@ -60,7 +59,7 @@ const DashboardPage: React.FC = () => {
     onSuccess: () => {
       enterDraw();
     },
-    onError(data, variables, context) {
+    onError() {
       if (!isConnected) {
         toast("Please connect your wallet first");
         return;
@@ -75,10 +74,10 @@ const DashboardPage: React.FC = () => {
     abi: ABI,
     functionName: "EnterGiveaway",
     args: [ticket],
-    onSuccess(data, variables, context) {
+    onSuccess() {
       toast("Successfully Entered Giveaway");
     },
-    onError(data, variables, context) {
+    onError(data) {
       if (!isConnected) {
         toast("Please connect your wallet first");
         return;
