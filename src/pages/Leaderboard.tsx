@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useContractRead } from "wagmi";
+import React, { useState } from "react";
+import { Address, useContractRead } from "wagmi";
 import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const LeaderboardPage: React.FC = () => {
-  const giveawayAddress = "0xe96512431A6765680662A5a7DFFe6d24C0303204";
+  const giveawayAddress = "0xB1f012514c43e1905B0af1b1F3F8D4979105207c";
   const PRIZE = 0.001;
   const [dates, setDates] = useState<string[] | []>([]);
-  const [leaderboard, setLeaderBoard] = useState<string[]>([]);
+  const [leaderboard, setLeaderBoard] = useState<Address[]>([]);
 
-  const { isLoading: gettingCount, data: giveawayCount } = useContractRead({
+  const { isLoading: gettingPlayerWinning, data: winners } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
-    functionName: "getCurrentGiveawayCount",
+    functionName: "getAllWiners",
     onSuccess() {
-      getGiveawayDates(Number(giveawayCount));
-    },
-  });
-
-  const {
-    isLoading: gettingPlayerWinning,
-    data: currentWinner,
-    refetch: refetchPlayerWinning,
-  } = useContractRead({
-    address: giveawayAddress,
-    abi: ABI,
-    functionName: "getPlayerWinning",
-    args: [Number(giveawayCount) == 0 ? 0 : Number(giveawayCount) - 1],
-    onSuccess() {
-      setLeaderBoard((prev) => [...prev, currentWinner as string]);
+      const allWinners = winners as Address[];
+      setLeaderBoard((winners as Address[]) || []);
+      getGiveawayDates(allWinners?.length);
     },
   });
   const getGiveawayDates = (giveaway_count: number) => {
@@ -41,12 +29,6 @@ const LeaderboardPage: React.FC = () => {
 
     setDates(giveawayDates);
   };
-
-  useEffect(() => {
-    for (let i = 0; i < Number(giveawayCount); i++) {
-      refetchPlayerWinning();
-    }
-  }, [giveawayCount]);
 
   return (
     <>
@@ -75,8 +57,7 @@ const LeaderboardPage: React.FC = () => {
                     </thead>
                     <tbody>
                       {" "}
-                      {leaderboard[0] ==
-                        "0x0000000000000000000000000000000000000000" && (
+                      {leaderboard.length == 0 && (
                         <p
                           style={{
                             textAlign: "center",
@@ -88,8 +69,7 @@ const LeaderboardPage: React.FC = () => {
                           No Winner History At The Moment
                         </p>
                       )}
-                      {leaderboard[0] !=
-                        "0x0000000000000000000000000000000000000000" &&
+                      {leaderboard.length != 0 &&
                         leaderboard.map((addr, index) => (
                           <tr key={index}>
                             <td style={{ width: "5%" }}>{index}</td>
@@ -109,7 +89,7 @@ const LeaderboardPage: React.FC = () => {
         </div>
       </section>
 
-      {(gettingCount || gettingPlayerWinning) && (
+      {gettingPlayerWinning && (
         <div className="loader">
           <CirclesWithBar
             height="100"
@@ -120,7 +100,7 @@ const LeaderboardPage: React.FC = () => {
             barColor="#fff"
             wrapperStyle={{}}
             wrapperClass=""
-            visible={gettingCount || gettingPlayerWinning}
+            visible={gettingPlayerWinning}
           />
         </div>
       )}

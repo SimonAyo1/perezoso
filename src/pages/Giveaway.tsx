@@ -7,7 +7,7 @@ import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
   const PRIZE = 0.001;
-  const giveawayAddress = "0xe96512431A6765680662A5a7DFFe6d24C0303204";
+  const giveawayAddress = "0xB1f012514c43e1905B0af1b1F3F8D4979105207c";
   const tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
   const TICKET_PRICE = 0.001;
   const [ticket, setTicket] = useState<number>(0);
@@ -20,7 +20,7 @@ const DashboardPage: React.FC = () => {
     abi: ABI,
     functionName: "getCurrentGiveawayCount",
     onSuccess() {
-      refetchPlayerWinning()
+      refetchWinners();
     },
     watch: true,
   });
@@ -32,18 +32,28 @@ const DashboardPage: React.FC = () => {
       functionName: "getCurrentPlayers",
       watch: true,
     });
+  const { data: maxTicket } = useContractRead({
+    address: giveawayAddress,
+    abi: ABI,
+    functionName: "getMaxTicket",
+  });
 
   const {
     isLoading: gettingPlayerWinning,
-    data: currentWinner,
-    refetch: refetchPlayerWinning,
+    data: winners,
+    refetch: refetchWinners,
   } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
-    functionName: "getPlayerWinning",
-    args: [Number(giveawayCount) == 0 ? 0 : Number(giveawayCount) - 1],
+    functionName: "getAllWiners",
+
     onSuccess() {
-      if ((currentWinner as Address) == address) {
+      const allWinners: Address[] = winners as Address[];
+      if (
+        allWinners[
+          Number(giveawayCount) == 0 ? 0 : Number(giveawayCount) - 1
+        ] == address
+      ) {
         setWinning(PRIZE + " PRZS");
       } else {
         setWinning("0.00 PRZS");
@@ -86,8 +96,20 @@ const DashboardPage: React.FC = () => {
         toast("Your balance is not enough!");
         return;
       }
-      if (data?.stack?.includes("Ticket above maximum ticket")) {
-        toast("Ticket above maximum ticket");
+      if (data?.stack?.includes("Ticket entered is above maximum ticket")) {
+        toast("Ticket entered is above maximum ticket" + " of " + maxTicket);
+        return;
+      }
+      if (
+        data?.stack?.includes(
+          "Your existing tickets plus this ticket exceeds the maximum ticket limit"
+        )
+      ) {
+        toast(
+          "Your existing tickets plus this ticket exceeds the maximum ticket limit" +
+            " of " +
+            maxTicket
+        );
         return;
       }
       if (data?.stack?.includes("insufficient allowance")) {
