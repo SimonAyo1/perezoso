@@ -4,7 +4,7 @@ import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const LeaderboardPage: React.FC = () => {
-  const giveawayAddress = "0xB1f012514c43e1905B0af1b1F3F8D4979105207c";
+  const giveawayAddress = "0xeBaad3cEE7b68Ac043BA9281aB087A3A40beE82e";
   const PRIZE = 0.001;
   const [dates, setDates] = useState<string[] | []>([]);
   const [leaderboard, setLeaderBoard] = useState<Address[]>([]);
@@ -24,7 +24,7 @@ const LeaderboardPage: React.FC = () => {
     let currentDate = new Date();
     for (let i = 0; i < giveaway_count; i++) {
       giveawayDates.push(new Date(currentDate).toDateString());
-      currentDate.setDate(currentDate.getDate() - 1);
+      currentDate.setDate(currentDate.getDate());
     }
 
     setDates(giveawayDates);
@@ -72,11 +72,11 @@ const LeaderboardPage: React.FC = () => {
                       {leaderboard.length != 0 &&
                         leaderboard.map((addr, index) => (
                           <tr key={index}>
-                            <td style={{ width: "5%" }}>{index}</td>
+                            <td style={{ width: "5%" }}>{index + 1}</td>
                             <td style={{ width: "45%" }}>{addr}</td>
                             <td style={{ width: "25%" }}>{PRIZE} PRZS</td>
                             <td style={{ width: "25%" }}>
-                              {dates.reverse()[index]}
+                              {dates[index]}
                             </td>
                           </tr>
                         ))}

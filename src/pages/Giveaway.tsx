@@ -7,7 +7,7 @@ import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
   const PRIZE = 0.001;
-  const giveawayAddress = "0xB1f012514c43e1905B0af1b1F3F8D4979105207c";
+  const giveawayAddress = "0xeBaad3cEE7b68Ac043BA9281aB087A3A40beE82e";
   const tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
   const TICKET_PRICE = 0.001;
   const [ticket, setTicket] = useState<number>(0);
@@ -15,6 +15,15 @@ const DashboardPage: React.FC = () => {
   const [winning, setWinning] = useState<string>("");
   const { address, isConnected } = useAccount();
 
+  function countOccurrences(arr: any[], element: any) {
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === element) {
+        count++;
+      }
+    }
+    return count;
+  }
   const { isLoading: gettingCount, data: giveawayCount } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
@@ -49,15 +58,9 @@ const DashboardPage: React.FC = () => {
 
     onSuccess() {
       const allWinners: Address[] = winners as Address[];
-      if (
-        allWinners[
-          Number(giveawayCount) == 0 ? 0 : Number(giveawayCount) - 1
-        ] == address
-      ) {
-        setWinning(PRIZE + " PRZS");
-      } else {
-        setWinning("0.00 PRZS");
-      }
+      const count = countOccurrences(allWinners, address);
+
+      setWinning(PRIZE * count + " PRZS");
     },
   });
 
