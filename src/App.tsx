@@ -10,6 +10,7 @@ import { WagmiConfig } from "wagmi";
 import { bsc } from "viem/chains";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { switchNetwork, watchNetwork } from "wagmi/actions";
 
 function App() {
   const projectId = "01138769aa5f008854a0126741fa52c1";
@@ -29,6 +30,14 @@ function App() {
   });
 
   createWeb3Modal({ wagmiConfig, projectId, chains });
+
+  watchNetwork(async (network) => {
+    if (network.chain?.name != "bsc") {
+      await switchNetwork({
+        chainId: 56,
+      });
+    }
+  });
 
   return (
     <WagmiConfig config={wagmiConfig}>
