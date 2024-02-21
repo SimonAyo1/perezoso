@@ -32,10 +32,10 @@ const HomePage: React.FC = () => {
                     <i className="fa-solid fa-ring mr-2"></i>
                     {!ctx.isSpanishCountry ? "Raffle Draw" : "Sorteo"}
                   </Link>
-                  <Link className="btn btn-bordered-white" to="/">
+                  <a className="btn btn-bordered-white" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
                     <i className="fa-solid fa-store mr-2"></i>
                     {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

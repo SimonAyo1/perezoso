@@ -41,9 +41,9 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <a className="nav-link" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
                 {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
-              </Link>
+              </a>
             </li>
           </ul>
 
@@ -121,9 +121,9 @@ const Header: React.FC = () => {
                       data-bs-dismiss="modal"
                       style={{ fontSize: "20px" }}
                     >
-                      <Link className="nav-link" to="/">
+                      <a className="nav-link" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
                         {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
-                      </Link>
+                      </a>
                     </li>
                     <li
                       className="nav-item"

@@ -6,10 +6,10 @@ import { toast } from "react-toastify";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
-  const PRIZE = 0.001;
-  const giveawayAddress = "0xeBaad3cEE7b68Ac043BA9281aB087A3A40beE82e";
-  const tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
-  const TICKET_PRICE = 0.001;
+  let PRIZE = 1000000;
+  const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
+  const tokenAddress = "0x53Ff62409B219CcAfF01042Bb2743211bB99882e";
+  let TICKET_PRICE = 1000;
   const [ticket, setTicket] = useState<number>(0);
   const [priceToPay, setPriceToPay] = useState<number>(0);
   const [winning, setWinning] = useState<string>("");
@@ -41,6 +41,17 @@ const DashboardPage: React.FC = () => {
       functionName: "getCurrentPlayers",
       watch: true,
     });
+
+    // const { isLoading: gettingTicketPrice, data: ticketPrice } =
+    // useContractRead({
+    //   address: giveawayAddress,
+    //   abi: ABI,
+    //   functionName: "ENTRY_FEE",
+    //   onSuccess: () => {
+    //      TICKET_PRICE =  Number(ticketPrice) / (10 ** 18)
+    //   }
+    // });
+
   const { data: maxTicket } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
@@ -140,7 +151,7 @@ const DashboardPage: React.FC = () => {
               <div className="col-12 col-md-7">
                 <div className="card no-hover staking-card single-staking">
                   <h3 className="m-0">Perezoso Raffle Draw</h3>
-                  <span className="balance">1,000,000 PRSD Prize</span>
+                  <span className="balance">1,000,000 PRZS Prize</span>
 
                   <div className="tab-content mt-md-3" id="myTabContent">
                     <div
@@ -153,7 +164,7 @@ const DashboardPage: React.FC = () => {
                         <div className="input-area col-lg-6 col-12 mb-3">
                           <div className="input-text">
                             <label>Ticket Price</label>
-                            <input type="text" value="0.001 PRZS" disabled />
+                            <input type="text" value={TICKET_PRICE+' PRZS'} disabled />
                           </div>
                         </div>
                         <div className="input-area col-lg-6 col-12 mb-3">

@@ -4,8 +4,8 @@ import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const LeaderboardPage: React.FC = () => {
-  const giveawayAddress = "0xeBaad3cEE7b68Ac043BA9281aB087A3A40beE82e";
-  const PRIZE = 0.001;
+  const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
+  const PRIZE = 1000000;
   const [dates, setDates] = useState<string[] | []>([]);
   const [leaderboard, setLeaderBoard] = useState<Address[]>([]);
 

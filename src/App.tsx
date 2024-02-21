@@ -7,12 +7,12 @@ import { LanguageProvider } from "./core/LanguageProvider";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 
 import { WagmiConfig } from "wagmi";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const projectId = "a9e46291ea6bad69dc11e78dcefdab87";
+  const projectId = "01138769aa5f008854a0126741fa52c1";
 
   const metadata = {
     name: "Perezoso",
@@ -21,7 +21,7 @@ function App() {
     icons: ["https://avatars.githubusercontent.com/u/37784886"],
   };
 
-  const chains = [bscTestnet];
+  const chains = [bsc];
   const wagmiConfig = defaultWagmiConfig({
     chains,
     projectId,
