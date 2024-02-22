@@ -14,7 +14,7 @@ const DashboardPage: React.FC = () => {
   const [priceToPay, setPriceToPay] = useState<number>(0);
   const [winning, setWinning] = useState<string>("");
   const { address, isConnected } = useAccount();
-
+  const [ticketsBought, setTicketBought] = useState<number>(0);
   function countOccurrences(arr: any[], element: any) {
     let count = 0;
     for (let i = 0; i < arr.length; i++) {
@@ -40,17 +40,24 @@ const DashboardPage: React.FC = () => {
       abi: ABI,
       functionName: "getCurrentPlayers",
       watch: true,
+      onSuccess: (data: Address[]) => {
+        let count = 0;
+        data?.forEach((player) => {
+          if (player == address) count++;
+        });
+        setTicketBought(count);
+      },
     });
 
-    // const { isLoading: gettingTicketPrice, data: ticketPrice } =
-    // useContractRead({
-    //   address: giveawayAddress,
-    //   abi: ABI,
-    //   functionName: "ENTRY_FEE",
-    //   onSuccess: () => {
-    //      TICKET_PRICE =  Number(ticketPrice) / (10 ** 18)
-    //   }
-    // });
+  // const { isLoading: gettingTicketPrice, data: ticketPrice } =
+  // useContractRead({
+  //   address: giveawayAddress,
+  //   abi: ABI,
+  //   functionName: "ENTRY_FEE",
+  //   onSuccess: () => {
+  //      TICKET_PRICE =  Number(ticketPrice) / (10 ** 18)
+  //   }
+  // });
 
   const { data: maxTicket } = useContractRead({
     address: giveawayAddress,
@@ -164,7 +171,11 @@ const DashboardPage: React.FC = () => {
                         <div className="input-area col-lg-6 col-12 mb-3">
                           <div className="input-text">
                             <label>Ticket Price</label>
-                            <input type="text" value={TICKET_PRICE+' PRZS'} disabled />
+                            <input
+                              type="text"
+                              value={TICKET_PRICE + " PRZS"}
+                              disabled
+                            />
                           </div>
                         </div>
                         <div className="input-area col-lg-6 col-12 mb-3">
@@ -258,6 +269,10 @@ const DashboardPage: React.FC = () => {
                   <div className="card no-hover staking-card">
                     <h3 className="m-0">{winning}</h3>
                     <p>Your Winnings</p>
+                  </div>
+                  <div className="card no-hover staking-card my-4">
+                    <h3 className="m-0">{ticketsBought}</h3>
+                    <p>Your Ticket(s)</p>
                   </div>
                   <div className="card no-hover staking-card my-4">
                     <h3 className="m-0">
