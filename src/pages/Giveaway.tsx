@@ -102,7 +102,7 @@ const DashboardPage: React.FC = () => {
   const { isRefetching: isLoadingWaitForTx, refetch: waitForApproval } =
     useWaitForTransaction({
       hash: approval?.hash,
-      onSuccess(data) {
+      onSuccess() {
         enterDraw();
       },
       enabled: false,
