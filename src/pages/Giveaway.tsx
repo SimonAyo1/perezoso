@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
+import {
+  Address,
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import ABI from "../core/ABI.json";
 import TOKENABI from "../core/TokenABI.json";
 import { toast } from "react-toastify";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
-  let PRIZE = 1000000;
+  let PRIZE = 5;
   const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
   const tokenAddress = "0x53Ff62409B219CcAfF01042Bb2743211bB99882e";
   let TICKET_PRICE = 1000;
@@ -49,16 +55,6 @@ const DashboardPage: React.FC = () => {
       },
     });
 
-  // const { isLoading: gettingTicketPrice, data: ticketPrice } =
-  // useContractRead({
-  //   address: giveawayAddress,
-  //   abi: ABI,
-  //   functionName: "ENTRY_FEE",
-  //   onSuccess: () => {
-  //      TICKET_PRICE =  Number(ticketPrice) / (10 ** 18)
-  //   }
-  // });
-
   const { data: maxTicket } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
@@ -78,17 +74,21 @@ const DashboardPage: React.FC = () => {
       const allWinners: Address[] = winners as Address[];
       const count = countOccurrences(allWinners, address);
 
-      setWinning(PRIZE * count + " PRZS");
+      setWinning("$" + PRIZE * count + " PRZS Token");
     },
   });
 
-  const { isLoading: approving, write: approve } = useContractWrite({
+  const {
+    data: approval,
+    isLoading: approving,
+    write: approve,
+  } = useContractWrite({
     address: tokenAddress,
     abi: TOKENABI,
     functionName: "approve",
     args: [giveawayAddress as Address, priceToPay * 10 ** 18],
     onSuccess: () => {
-      enterDraw();
+      waitForApproval();
     },
     onError() {
       if (!isConnected) {
@@ -98,6 +98,15 @@ const DashboardPage: React.FC = () => {
       toast("Error, Approval unsuccessful.");
     },
   });
+
+  const { isRefetching: isLoadingWaitForTx, refetch: waitForApproval } =
+    useWaitForTransaction({
+      hash: approval?.hash,
+      onSuccess(data) {
+        enterDraw();
+      },
+      enabled: false,
+    });
 
   // Call the useContractWrite hook directly inside the component
   const { isLoading, write: enterDraw } = useContractWrite({
@@ -141,14 +150,6 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `https://api.bscscan.com/api?module=stats&action=tokensupply&contractaddress=0x53Ff62409B219CcAfF01042Bb2743211bB99882e&apikey=`
-  //     )
-  //     .then((response) => {});
-  // }, []);
-
   return (
     <>
       <section className="hero-section">
@@ -158,7 +159,7 @@ const DashboardPage: React.FC = () => {
               <div className="col-12 col-md-7">
                 <div className="card no-hover staking-card single-staking">
                   <h3 className="m-0">Perezoso Raffle Draw</h3>
-                  <span className="balance">1,000,000 PRZS Prize</span>
+                  <span className="balance">$5 PRZS Token Prize</span>
 
                   <div className="tab-content mt-md-3" id="myTabContent">
                     <div
@@ -312,7 +313,8 @@ const DashboardPage: React.FC = () => {
               approving ||
               gettingCount ||
               gettingPlayerWinning ||
-              gettingNoOfPlayers
+              gettingNoOfPlayers ||
+              isLoadingWaitForTx
             }
           />
         </div>
