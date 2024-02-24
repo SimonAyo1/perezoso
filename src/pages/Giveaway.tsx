@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Address,
-  useAccount,
-  useContractRead,
-  useContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import ABI from "../core/ABI.json";
 import TOKENABI from "../core/TokenABI.json";
 import { toast } from "react-toastify";
@@ -21,6 +15,9 @@ const DashboardPage: React.FC = () => {
   const [winning, setWinning] = useState<string>("");
   const { address, isConnected } = useAccount();
   const [ticketsBought, setTicketBought] = useState<number>(0);
+  const [isWaitingForApproval, setIsWaitingForApproval] =
+    useState<boolean>(false);
+
   function countOccurrences(arr: any[], element: any) {
     let count = 0;
     for (let i = 0; i < arr.length; i++) {
@@ -78,18 +75,17 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  const {
-    data: approval,
-    isLoading: approving,
-    write: approve,
-  } = useContractWrite({
+  const { isLoading: approving, write: approve } = useContractWrite({
     address: tokenAddress,
     abi: TOKENABI,
     functionName: "approve",
     args: [giveawayAddress as Address, priceToPay * 10 ** 18],
-    onSuccess: (data) => {
-      console.log(data, "cc1cc");
-      waitForApproval();
+    onSuccess: () => {
+      setIsWaitingForApproval(true);
+      setTimeout(() => {
+        enterDraw();
+        setIsWaitingForApproval(false);
+      }, 3000);
     },
     onError() {
       if (!isConnected) {
@@ -100,20 +96,20 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  const { isLoading: isLoadingWaitForTx, refetch: waitForApproval } =
-    useWaitForTransaction({
-      hash: approval?.hash,
-      onSuccess(data) {
-        console.log(data, "cccc");
+  // const { isLoading: isLoadingWaitForTx, refetch: waitForApproval } =
+  //   useWaitForTransaction({
+  //     hash: approval?.hash,
+  //     onSuccess(data) {
+  //       console.log(data, "cccc");
 
-        enterDraw();
+  //       enterDraw();
 
-      },
-      onError: (data) => {
-       console.log(data, "wwwwww");
-      },
-      enabled: false,
-    });
+  //     },
+  //     onError: (data) => {
+  //      console.log(data, "wwwwww");
+  //     },
+  //     enabled: false,
+  //   });
 
   const { isLoading, write: enterDraw } = useContractWrite({
     address: giveawayAddress,
@@ -320,7 +316,7 @@ const DashboardPage: React.FC = () => {
               gettingCount ||
               gettingPlayerWinning ||
               gettingNoOfPlayers ||
-              isLoadingWaitForTx
+              isWaitingForApproval
             }
           />
         </div>
