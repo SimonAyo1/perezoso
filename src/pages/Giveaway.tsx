@@ -87,7 +87,8 @@ const DashboardPage: React.FC = () => {
     abi: TOKENABI,
     functionName: "approve",
     args: [giveawayAddress as Address, priceToPay * 10 ** 18],
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data, "cc1cc");
       waitForApproval();
     },
     onError() {
@@ -99,16 +100,21 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  const { isRefetching: isLoadingWaitForTx, refetch: waitForApproval } =
+  const { isLoading: isLoadingWaitForTx, refetch: waitForApproval } =
     useWaitForTransaction({
       hash: approval?.hash,
-      onSuccess() {
+      onSuccess(data) {
+        console.log(data, "cccc");
+
         enterDraw();
+
+      },
+      onError: (data) => {
+       console.log(data, "wwwwww");
       },
       enabled: false,
     });
 
-  // Call the useContractWrite hook directly inside the component
   const { isLoading, write: enterDraw } = useContractWrite({
     address: giveawayAddress,
     abi: ABI,
