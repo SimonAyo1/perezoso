@@ -85,7 +85,7 @@ const DashboardPage: React.FC = () => {
       setTimeout(() => {
         enterDraw();
         setIsWaitingForApproval(false);
-      }, 3000);
+      }, 4000);
     },
     onError() {
       if (!isConnected) {
