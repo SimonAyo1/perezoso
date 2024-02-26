@@ -5,7 +5,6 @@ import { CirclesWithBar } from "react-loader-spinner";
 
 const LeaderboardPage: React.FC = () => {
   const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
-  const PRIZE = 1000000;
   const [dates, setDates] = useState<string[] | []>([]);
   const [leaderboard, setLeaderBoard] = useState<Address[]>([]);
 
@@ -74,7 +73,7 @@ const LeaderboardPage: React.FC = () => {
                           <tr key={index}>
                             <td style={{ width: "5%" }}>{index + 1}</td>
                             <td style={{ width: "45%" }}>{addr}</td>
-                            <td style={{ width: "25%" }}>{PRIZE} PRZS</td>
+                            <td style={{ width: "25%" }}>1,000,000 PRZS</td>
                             <td style={{ width: "25%" }}>
                               {dates[index]}
                             </td>
