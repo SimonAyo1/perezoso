@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                 </a>
                 <a
                   className="telegram"
-                  href="https://t.me/perozosotoken"
+                  href="https://t.me/perezosotoken"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

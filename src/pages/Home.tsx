@@ -25,16 +25,27 @@ const HomePage: React.FC = () => {
                   </p>
                 </div>
                 <div className="button-group">
+                 
+                  <a
+                    className="btn btn-bordered-white mb-3"
+                    href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e"
+                  >
+                    <i className="fa-solid fa-store mr-2"></i>
+                    {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
+                  </a>
                   <Link
-                    className="btn btn-bordered active smooth-anchor"
+                    className="btn btn-bordered active smooth-anchor  mb-2"
                     to="/raffle"
                   >
                     <i className="fa-solid fa-ring mr-2"></i>
                     {!ctx.isSpanishCountry ? "Raffle Draw" : "Sorteo"}
                   </Link>
-                  <a className="btn btn-bordered-white" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
-                    <i className="fa-solid fa-store mr-2"></i>
-                    {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
+                  <a
+                    className="btn btn-bordered-white  mb-2"
+                    href="https://drive.google.com/file/d/1PXB0_ev2_oex0o8LdPF-QmQi3hFLyoxK/view"
+                  >
+                    <i className="fa-solid fa-file mr-2"></i>
+                    Whitepaper
                   </a>
                 </div>
               </div>

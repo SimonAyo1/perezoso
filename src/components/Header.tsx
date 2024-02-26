@@ -41,7 +41,18 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
+              <a
+                className="nav-link"
+                href="https://drive.google.com/file/d/1PXB0_ev2_oex0o8LdPF-QmQi3hFLyoxK/view"
+              >
+                Whitepaper
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e"
+              >
                 {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
               </a>
             </li>
@@ -121,7 +132,22 @@ const Header: React.FC = () => {
                       data-bs-dismiss="modal"
                       style={{ fontSize: "20px" }}
                     >
-                      <a className="nav-link" href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e">
+                      <a
+                        className="nav-link"
+                        href="https://drive.google.com/file/d/1PXB0_ev2_oex0o8LdPF-QmQi3hFLyoxK/view"
+                      >
+                        Whitepaper
+                      </a>
+                    </li>
+                    <li
+                      className="nav-item"
+                      data-bs-dismiss="modal"
+                      style={{ fontSize: "20px" }}
+                    >
+                      <a
+                        className="nav-link"
+                        href="https://pancakeswap.finance/swap?chain=bsc&outputCurrency=BNB&utm_source=Trust_iOS_Browser&inputCurrency=0x53Ff62409B219CcAfF01042Bb2743211bB99882e"
+                      >
                         {!ctx.isSpanishCountry ? "Buy Token" : "Comprar Ficha"}
                       </a>
                     </li>
