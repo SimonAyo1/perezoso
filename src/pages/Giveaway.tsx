@@ -279,7 +279,7 @@ const DashboardPage: React.FC = () => {
                   </div>
                   <div className="card no-hover staking-card my-4">
                     <h3 className="m-0">
-                      ${Number(giveawayCount) * 1000000} PRZS
+                      ${Number(giveawayCount) * 1},000,000 PRZS
                     </h3>
                     <p>Total Rewards Distributed</p>
                   </div>
