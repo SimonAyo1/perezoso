@@ -74,7 +74,7 @@ const DashboardPage: React.FC = () => {
       const allWinners: Address[] = winners as Address[];
       const count = countOccurrences(allWinners, address);
 
-      setWinning("$" + PRIZE * count + " PRZS Token");
+      setWinning("$" + PRIZE * (count || 0) + " PRZS Token");
     },
   });
 
