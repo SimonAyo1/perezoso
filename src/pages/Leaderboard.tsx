@@ -3,31 +3,25 @@ import { Address, useContractRead } from "wagmi";
 import ABI from "../core/ABI.json";
 import { CirclesWithBar } from "react-loader-spinner";
 
+interface Winner {
+  prize: number;
+  timestamp: number;
+  winner: Address;
+}
+
 const LeaderboardPage: React.FC = () => {
-  const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
-  const [dates, setDates] = useState<string[] | []>([]);
-  const [leaderboard, setLeaderBoard] = useState<Address[]>([]);
+  const giveawayAddress = "0x3234ddFeB18fbeFcBF5D482A00a8dD4fAEdA8d19";
+  const [leaderboard, setLeaderBoard] = useState<Winner[]>([]);
 
   const { isLoading: gettingPlayerWinning, data: winners } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
-    functionName: "getAllWiners",
+    functionName: "getLeaderboard",
     onSuccess() {
-      const allWinners = winners as Address[];
-      setLeaderBoard((winners as Address[]) || []);
-      getGiveawayDates(allWinners?.length);
+      const allWinners = winners as Winner[];
+      setLeaderBoard((allWinners as Winner[]) || []);
     },
   });
-  const getGiveawayDates = (giveaway_count: number) => {
-    let giveawayDates: string[] = [];
-    let currentDate = new Date();
-    for (let i = 0; i < giveaway_count; i++) {
-      giveawayDates.push(new Date(currentDate).toDateString());
-      currentDate.setDate(currentDate.getDate());
-    }
-
-    setDates(giveawayDates);
-  };
 
   return (
     <>
@@ -72,10 +66,14 @@ const LeaderboardPage: React.FC = () => {
                         leaderboard.map((addr, index) => (
                           <tr key={index}>
                             <td style={{ width: "5%" }}>{index + 1}</td>
-                            <td style={{ width: "45%" }}>{addr}</td>
-                            <td style={{ width: "25%" }}>1,000,000 PRZS</td>
+                            <td style={{ width: "45%" }}>{addr.winner}</td>
                             <td style={{ width: "25%" }}>
-                              {dates[index]}
+                              {Number(addr.prize)} PRZS
+                            </td>
+                            <td style={{ width: "25%" }}>
+                              {new Date(
+                                Number(addr.timestamp) * 1000
+                              ).toDateString()}
                             </td>
                           </tr>
                         ))}

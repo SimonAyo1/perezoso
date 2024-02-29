@@ -7,9 +7,8 @@ import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
   let PRIZE = 5;
-  const giveawayAddress = "0x8505cdEBD67B82dc5434AFCc580465120E899CF3";
+  const giveawayAddress = "0x3234ddFeB18fbeFcBF5D482A00a8dD4fAEdA8d19";
   const tokenAddress = "0x53Ff62409B219CcAfF01042Bb2743211bB99882e";
-  let TICKET_PRICE = 1000;
   const [ticket, setTicket] = useState<number>(0);
   const [priceToPay, setPriceToPay] = useState<number>(0);
   const [winning, setWinning] = useState<string>("");
@@ -27,15 +26,7 @@ const DashboardPage: React.FC = () => {
     }
     return count;
   }
-  const { isLoading: gettingCount, data: giveawayCount } = useContractRead({
-    address: giveawayAddress,
-    abi: ABI,
-    functionName: "getCurrentGiveawayCount",
-    onSuccess() {
-      refetchWinners();
-    },
-    watch: true,
-  });
+ 
 
   const { isLoading: gettingNoOfPlayers, data: currentPlayers } =
     useContractRead({
@@ -57,11 +48,23 @@ const DashboardPage: React.FC = () => {
     abi: ABI,
     functionName: "getMaxTicket",
   });
+ 
+  const { data: totalRewardDistributed } = useContractRead({
+    address: giveawayAddress,
+    abi: ABI,
+    functionName: "totalRewardDistributed",
+    
+  });
+
+  const { data: TICKET_PRICE } = useContractRead({
+    address: giveawayAddress,
+    abi: ABI,
+    functionName: "ENTRY_FEE",
+  });
 
   const {
     isLoading: gettingPlayerWinning,
     data: winners,
-    refetch: refetchWinners,
   } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
@@ -173,7 +176,7 @@ const DashboardPage: React.FC = () => {
                       <div className="input-box my-4 d-flex row">
                         <div className="input-area col-lg-6 col-12 mb-3">
                           <div className="input-text">
-                            <label>Ticket Price</label>
+                            <label>Ticket Price {Number(TICKET_PRICE)}</label>
                             <input
                               type="text"
                               value={TICKET_PRICE + " PRZS"}
@@ -190,7 +193,7 @@ const DashboardPage: React.FC = () => {
                               onChange={(e) => {
                                 setTicket(parseInt(e.target.value));
                                 setPriceToPay(
-                                  parseInt(e.target.value) * TICKET_PRICE
+                                  parseInt(e.target.value || '0') * Number(TICKET_PRICE)
                                 );
                               }}
                             />
@@ -279,7 +282,7 @@ const DashboardPage: React.FC = () => {
                   </div>
                   <div className="card no-hover staking-card my-4">
                     <h3 className="m-0">
-                      ${Number(giveawayCount) * 1},000,000 PRZS
+                      {Number(totalRewardDistributed) || 0} PRZS
                     </h3>
                     <p>Total Rewards Distributed</p>
                   </div>
@@ -297,7 +300,6 @@ const DashboardPage: React.FC = () => {
       </section>
       {(isLoading ||
         approving ||
-        gettingCount ||
         gettingPlayerWinning ||
         gettingNoOfPlayers) && (
         <div className="loader">
@@ -313,7 +315,6 @@ const DashboardPage: React.FC = () => {
             visible={
               isLoading ||
               approving ||
-              gettingCount ||
               gettingPlayerWinning ||
               gettingNoOfPlayers ||
               isWaitingForApproval
