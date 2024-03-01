@@ -5,6 +5,12 @@ import TOKENABI from "../core/TokenABI.json";
 import { toast } from "react-toastify";
 import { CirclesWithBar } from "react-loader-spinner";
 
+interface Winner {
+  prize: number;
+  timestamp: number;
+  winner: Address;
+}
+
 const DashboardPage: React.FC = () => {
   const giveawayAddress = "0x3234ddFeB18fbeFcBF5D482A00a8dD4fAEdA8d19";
   const tokenAddress = "0x53Ff62409B219CcAfF01042Bb2743211bB99882e";
@@ -16,16 +22,20 @@ const DashboardPage: React.FC = () => {
   const [isWaitingForApproval, setIsWaitingForApproval] =
     useState<boolean>(false);
 
-  function countOccurrences(arr: any[], element: any) {
-    let count = 0;
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === element) {
-        count++;
+  function accumulatedPrizeForAddress(
+    winners: Winner[],
+    address: string
+  ): number {
+    let accumulatedPrize = 0;
+
+    for (const winner of winners) {
+      if (winner.winner === address) {
+        accumulatedPrize += Number(winner.prize);
       }
     }
-    return count;
+
+    return accumulatedPrize;
   }
- 
 
   const { isLoading: gettingNoOfPlayers, data: currentPlayers } =
     useContractRead({
@@ -47,12 +57,11 @@ const DashboardPage: React.FC = () => {
     abi: ABI,
     functionName: "getMaxTicket",
   });
- 
+
   const { data: totalRewardDistributed } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
     functionName: "totalRewardDistributed",
-    
   });
 
   const { data: TICKET_PRICE } = useContractRead({
@@ -67,19 +76,14 @@ const DashboardPage: React.FC = () => {
     functionName: "PRIZE",
   });
 
-  const {
-    isLoading: gettingPlayerWinning,
-    data: winners,
-  } = useContractRead({
+  const { isLoading: gettingPlayerWinning, data: winners } = useContractRead({
     address: giveawayAddress,
     abi: ABI,
-    functionName: "getAllWiners",
-
+    functionName: "getLeaderboard",
     onSuccess() {
-      const allWinners: Address[] = winners as Address[];
-      const count = countOccurrences(allWinners, address);
-
-      setWinning(Number(PRIZE) * (count || 0) + " PRZS Token");
+      const allWinners = winners as Winner[];
+      const winning = accumulatedPrizeForAddress(allWinners, address as string);
+      setWinning(winning + " PRZS Token");
     },
   });
 
@@ -103,7 +107,6 @@ const DashboardPage: React.FC = () => {
       toast("Error, Approval unsuccessful.");
     },
   });
-
 
   const { isLoading, write: enterDraw } = useContractWrite({
     address: giveawayAddress,
@@ -155,7 +158,9 @@ const DashboardPage: React.FC = () => {
               <div className="col-12 col-md-7">
                 <div className="card no-hover staking-card single-staking">
                   <h3 className="m-0">Perezoso Raffle Draw</h3>
-                  <span className="balance">{Number(PRIZE)} PRZS Token Prize</span>
+                  <span className="balance">
+                    {Number(PRIZE)} PRZS Token Prize
+                  </span>
 
                   <div className="tab-content mt-md-3" id="myTabContent">
                     <div
@@ -184,7 +189,8 @@ const DashboardPage: React.FC = () => {
                               onChange={(e) => {
                                 setTicket(parseInt(e.target.value));
                                 setPriceToPay(
-                                  parseInt(e.target.value || '0') * Number(TICKET_PRICE)
+                                  parseInt(e.target.value || "0") *
+                                    Number(TICKET_PRICE)
                                 );
                               }}
                             />
