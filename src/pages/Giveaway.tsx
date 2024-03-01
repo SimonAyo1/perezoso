@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { CirclesWithBar } from "react-loader-spinner";
 
 const DashboardPage: React.FC = () => {
-  let PRIZE = 5;
   const giveawayAddress = "0x3234ddFeB18fbeFcBF5D482A00a8dD4fAEdA8d19";
   const tokenAddress = "0x53Ff62409B219CcAfF01042Bb2743211bB99882e";
   const [ticket, setTicket] = useState<number>(0);
@@ -62,6 +61,12 @@ const DashboardPage: React.FC = () => {
     functionName: "ENTRY_FEE",
   });
 
+  const { data: PRIZE } = useContractRead({
+    address: giveawayAddress,
+    abi: ABI,
+    functionName: "PRIZE",
+  });
+
   const {
     isLoading: gettingPlayerWinning,
     data: winners,
@@ -74,7 +79,7 @@ const DashboardPage: React.FC = () => {
       const allWinners: Address[] = winners as Address[];
       const count = countOccurrences(allWinners, address);
 
-      setWinning("$" + PRIZE * (count || 0) + " PRZS Token");
+      setWinning(Number(PRIZE) * (count || 0) + " PRZS Token");
     },
   });
 
@@ -99,20 +104,6 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  // const { isLoading: isLoadingWaitForTx, refetch: waitForApproval } =
-  //   useWaitForTransaction({
-  //     hash: approval?.hash,
-  //     onSuccess(data) {
-  //       console.log(data, "cccc");
-
-  //       enterDraw();
-
-  //     },
-  //     onError: (data) => {
-  //      console.log(data, "wwwwww");
-  //     },
-  //     enabled: false,
-  //   });
 
   const { isLoading, write: enterDraw } = useContractWrite({
     address: giveawayAddress,
@@ -164,7 +155,7 @@ const DashboardPage: React.FC = () => {
               <div className="col-12 col-md-7">
                 <div className="card no-hover staking-card single-staking">
                   <h3 className="m-0">Perezoso Raffle Draw</h3>
-                  <span className="balance">$5 PRZS Token Prize</span>
+                  <span className="balance">{Number(PRIZE)} PRZS Token Prize</span>
 
                   <div className="tab-content mt-md-3" id="myTabContent">
                     <div
