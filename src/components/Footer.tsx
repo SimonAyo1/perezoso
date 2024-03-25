@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { LanguageContext, LanguageContextType } from "../core/LanguageProvider";
 
+
 const Footer: React.FC = () => {
   const ctx = useContext<LanguageContextType>(LanguageContext);
   return (
@@ -42,6 +43,14 @@ const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                 >
                   <i className="fa-brands fa-telegram"></i>
+                </a>
+                <a
+                  className="telegram"
+                  href="mailto:enc.perezoso@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i className="fa-solid fa-envelope"></i>
                 </a>
               </div>
             </div>
